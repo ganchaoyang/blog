@@ -117,4 +117,5 @@ docker run -d --name test -p 8080:8080 itweknow/springboot-docker
 CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                    NAMES
 652fd3ccac89        itweknow/springboot-docker   "java -jar /springbo…"   3 seconds ago       Up 2 seconds        0.0.0.0:8080->8080/tcp   test
 ```
-我们的项目已经成功运行在了docker容器中了，我们可以访问一下`http://虚拟机IP:8080/hello`测试一下了。
+我们的项目已经成功运行在了docker容器中了，我们可以访问一下`http://虚拟机IP:8080/hello`测试一下了。  
+项目地址： https://github.com/ganchaoyang/blog/tree/master/springboot-docker
