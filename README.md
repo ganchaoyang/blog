@@ -4,4 +4,5 @@
 #### 微服务
 * [了解什么是微服务](https://github.com/ganchaoyang/blog/blob/master/microservice/MicroServiceInro.md)
 * [架构师的工作](https://github.com/ganchaoyang/blog/blob/master/microservice/ArchitectInMicroService.md)
+* [如何划分微服务](https://github.com/ganchaoyang/blog/blob/master/microservice/ModelingService.md)
 * [在Docker中运行SpringBoot应用](https://github.com/ganchaoyang/blog/tree/master/springboot-docker)
