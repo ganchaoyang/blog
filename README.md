@@ -6,3 +6,7 @@
 * [架构师的工作](https://github.com/ganchaoyang/blog/blob/master/microservice/ArchitectInMicroService.md)
 * [如何划分微服务](https://github.com/ganchaoyang/blog/blob/master/microservice/ModelingService.md)
 * [在Docker中运行SpringBoot应用](https://github.com/ganchaoyang/blog/tree/master/springboot-docker)
+
+#### 大数据
+
+* [在Ubuntu上安装Hadoop单机版](https://github.com/ganchaoyang/blog/blob/master/bigdata/src/InstallHadoop.md)
