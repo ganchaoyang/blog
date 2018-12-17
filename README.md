@@ -10,3 +10,4 @@
 #### 大数据
 
 * [在Ubuntu上安装Hadoop单机版](https://github.com/ganchaoyang/blog/blob/master/bigdata/src/InstallHadoop.md)
+* [初识Hadoop之HDFS](https://github.com/ganchaoyang/blog/blob/master/bigdata/src/hdfs.md)
