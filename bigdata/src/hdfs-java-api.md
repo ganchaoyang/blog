@@ -100,7 +100,7 @@ public void deleteNonEmptyDir() throws IOException {
 }
 ```
 * 创建写入文件  
-我们通过``FileSystem.create()`方法来创建一个文件，这个方法会顺带着创建补存在的父级目录，如果不需要这个的话，最好是在创建之前调用`exists()`方法来判断一下，如果父级目录不存在直接报错即可。
+我们通过`FileSystem.create()`方法来创建一个文件，这个方法会顺带着创建补存在的父级目录，如果不需要这个的话，最好是在创建之前调用`exists()`方法来判断一下，如果父级目录不存在直接报错即可。
 ```java
 @Test
 public void create() throws IOException {
