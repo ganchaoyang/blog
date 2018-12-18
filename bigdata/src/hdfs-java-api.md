@@ -140,7 +140,7 @@ public void copyToLocal() throws IOException {
     fs.copyToLocalFile(new Path("/test/api/local.txt"), new Path("E:/"));
 }
 ```
-通常情况下这些API基本上够我们使用了，如果后续我有使用到其他的API会及时的更新到本篇文章中。本文的源码：
+通常情况下这些API基本上够我们使用了，如果后续我有使用到其他的API会及时的更新到本篇文章中。本文的源码：https://github.com/ganchaoyang/blog/blob/master/bigdata/src/main/java/cn/itweknow/bigdata/hdfs/JavaApi.java
 
 
 
