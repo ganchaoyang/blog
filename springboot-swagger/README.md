@@ -147,4 +147,4 @@ public class User implements Serializable {
 ### API测试
 在`swagger-ui.html`页面上我们可以直接测试API，如下图所示，点击`Try it out`，然后填写参数，并点击`Execute`即可进行调用。
 ![](https://g-blog.oss-cn-beijing.aliyuncs.com/image/56-3.png)  
-好了，对于Swagger的介绍就到这里了，最后奉上本文的源码地址，[请戳这里]()。
+好了，对于Swagger的介绍就到这里了，最后奉上本文的源码地址，[请戳这里](https://github.com/ganchaoyang/blog/tree/master/springboot-swagger)。
