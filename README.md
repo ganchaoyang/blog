@@ -14,3 +14,4 @@
 * [在Ubuntu上安装Hadoop单机版](https://github.com/ganchaoyang/blog/blob/master/bigdata/src/InstallHadoop.md)
 * [初识Hadoop之HDFS](https://github.com/ganchaoyang/blog/blob/master/bigdata/src/hdfs.md)
 * [初识Hadoop之HDFS - Java API篇](https://github.com/ganchaoyang/blog/blob/master/bigdata/src/hdfs-java-api.md)
+* [Hadoop之MapReduce实战](https://github.com/ganchaoyang/blog/tree/master/mr-test)
