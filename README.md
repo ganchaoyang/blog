@@ -15,3 +15,4 @@
 * [初识Hadoop之HDFS](https://github.com/ganchaoyang/blog/blob/master/bigdata/src/hdfs.md)
 * [初识Hadoop之HDFS - Java API篇](https://github.com/ganchaoyang/blog/blob/master/bigdata/src/hdfs-java-api.md)
 * [Hadoop之MapReduce实战](https://github.com/ganchaoyang/blog/tree/master/mr-test)
+* [Hadoop之MapReduce实战-单元测试篇](https://github.com/ganchaoyang/blog/blob/master/mr-test/MRUNIT.md)
