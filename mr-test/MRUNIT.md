@@ -76,5 +76,5 @@ public class CharCountReducerTest {
                 .runTest();
     }
 ```
-* main方法
+* main方法  
 也可以直接运行驱动程序中的main方法，Hadoop有一个本地作业运行库，是为测试而生的，我们可以通过设置`mapreduce.framwork.name`来配置，默认就是local（本地作业运行器）。
