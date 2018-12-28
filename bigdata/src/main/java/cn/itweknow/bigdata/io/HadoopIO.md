@@ -4,6 +4,7 @@ HDFS会对写入的所有数据计算校验和，并在读取数据时验证校�
 #### codec
 * CompressionCodec接口  
 CodepressionCodec里有两个方法，分别是createOutputStream(OutputStream out)和createInputStream(InputStream in)，前者是对写入输出数据流的数据进行压缩，而后者则是对输入数据流的数据进行解压缩。​一个CodepressionCodec的实现对应着一种压缩-解压缩算法。  
+
 | 压缩格式 | 后缀 | 对应的CompressionCodec实现 | 是否可切分 |   
 | ------ | ------ | ------ | ------ |  
 | DEFALATE | .deflate | org.apache.hadoop.io.compress​.DefaultCodec  | 否 |   
