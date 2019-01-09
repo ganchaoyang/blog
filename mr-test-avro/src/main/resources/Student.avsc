@@ -1,0 +1,11 @@
+{
+    "type": "record",
+    "name": "StudentRecord",
+    "doc": "A student",
+    "fields": [
+        {"name": "name", "type": "string"},
+        {"name": "age", "type": "int"},
+        {"name": "hobby", "type": "string"},
+        {"name": "class", "type": "string"}
+    ]
+}

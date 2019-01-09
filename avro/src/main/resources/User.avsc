@@ -1,0 +1,9 @@
+{
+    "type": "record",
+    "name": "User",
+    "doc": "一个用户",
+    "fields": [
+        {"name": "name", "type": "string"},
+        {"name": "age", "type": "int"}
+    ]
+}
