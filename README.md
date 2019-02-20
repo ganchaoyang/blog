@@ -3,7 +3,6 @@
 ### 目录
 #### 微服务
 * [微服务之间的协作方式](https://github.com/ganchaoyang/blog/blob/master/microservice/MicroServiceIntegrated.md)
-* [SpringBoot集成Swagger2生成接口文档](https://github.com/ganchaoyang/blog/tree/master/springboot-swagger)
 * [了解什么是微服务](https://github.com/ganchaoyang/blog/blob/master/microservice/MicroServiceInro.md)
 * [架构师的工作](https://github.com/ganchaoyang/blog/blob/master/microservice/ArchitectInMicroService.md)
 * [如何划分微服务](https://github.com/ganchaoyang/blog/blob/master/microservice/ModelingService.md)
@@ -16,3 +15,7 @@
 * [初识Hadoop之HDFS - Java API篇](https://github.com/ganchaoyang/blog/blob/master/bigdata/src/hdfs-java-api.md)
 * [Hadoop之MapReduce实战](https://github.com/ganchaoyang/blog/tree/master/mr-test)
 * [Hadoop之MapReduce实战-单元测试篇](https://github.com/ganchaoyang/blog/blob/master/mr-test/MRUNIT.md)
+
+#### SpringBoot
+* [SpringBoot项目配置多数据源](https://github.com/ganchaoyang/blog/blob/master/springboot-multi-datasource)
+* [SpringBoot集成Swagger2生成接口文档](https://github.com/ganchaoyang/blog/tree/master/springboot-swagger)
