@@ -1,54 +1,54 @@
-在实际的项目（特别是一些较大的项目）的开发过程中我们会经常遇到一个项目操作多个数据库的问题，也就是多数据源的问题。那么本篇文章将通过一个具体的例子来讲解如何在SpringBoot+Mybatis+Druid+MySQL项目中实现多数据源的配置。
+在实际的项目开发过程中我们会经常遇到一个项目操作多个数据库的问题，也就是多数据源的问题。那么本篇文章将通过一个具体的例子来讲解如何在SpringBoot+Mybatis+Druid+MySQL项目中实现多数据源的配置。
 ### 准备
-> 一个springboot项目，可以去官网快速生成一个。  
+> 一个springboot项目，可以去官网快速生成一个，如果你不是很清楚怎么生成的话，可以看我[之前的文章](https://itweknow.cn/detail?id=36)。  
 > 一个可用的MySQL数据库。
 
 ### 数据库方面的准备工作
 在本例中我们将会新建两个数据库（dbone和dbtwo）,其中dbone中拥有一张city表，dbtwo中包含一张user表。  
-* 新建数据库
+1. 新建数据库
 
-```
--- 创建数据库
-CREATE DATABASE dbone;
-CREATE DATABASE dbtwo;
-```
+  ```
+  -- 创建数据库
+  CREATE DATABASE dbone;
+  CREATE DATABASE dbtwo;
+  ```
 
-* dbone，建city表并插入一条数据
+2. dbone，建city表并插入一条数据
 
-```
--- 在dbone中新建city表
-USE dbone;
-DROP TABLE IF EXISTS `city`;
-CREATE TABLE `city` (
-`id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '城市编号',
-`province_id` int(10) unsigned NOT NULL COMMENT '省份编号',
-`city_name` varchar(25) DEFAULT NULL COMMENT '城市名称',
-`description` varchar(25) DEFAULT NULL COMMENT '描述',
-PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
-INSERT city VALUES (1 ,1,'上海市','直辖市');
-```
-
-* 在dbtwo中新建user表
-
-```
--- 初始化dbtwo的表
-USE dbtwo;
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户编号',
-  `user_name` varchar(25) DEFAULT NULL COMMENT '用户名称',
+  ```
+  -- 在dbone中新建city表
+  USE dbone;
+  DROP TABLE IF EXISTS `city`;
+  CREATE TABLE `city` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '城市编号',
+  `province_id` int(10) unsigned NOT NULL COMMENT '省份编号',
+  `city_name` varchar(25) DEFAULT NULL COMMENT '城市名称',
   `description` varchar(25) DEFAULT NULL COMMENT '描述',
-  `city_id` int(11) DEFAULT NULL COMMENT '城市id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-INSERT user VALUES (1 ,'名字想好没。', '个人主页：https://itweknow.cn', 1);
-```
+  INSERT city VALUES (1 ,1,'上海市','直辖市');
+  ```
+
+3. 在dbtwo中新建user表
+
+  ```
+  -- 初始化dbtwo的表
+  USE dbtwo;
+  DROP TABLE IF EXISTS `user`;
+  CREATE TABLE `user` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户编号',
+    `user_name` varchar(25) DEFAULT NULL COMMENT '用户名称',
+    `description` varchar(25) DEFAULT NULL COMMENT '描述',
+    `city_id` int(11) DEFAULT NULL COMMENT '城市id',
+    PRIMARY KEY (`id`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+  INSERT user VALUES (1 ,'名字想好没。', '个人主页：https://itweknow.cn', 1);
+  ```
 
 ### 项目依赖
-在准备阶段我们就已经生成了一个SpringBoot的一个基础的web项目，如果你不是很清楚怎么生成的话，可以看我[之前的文章](https://itweknow.cn/detail?id=36)。前面也提到过我们的例子使用的技术栈是SpringBoot+MySQL+MyBatis+Druid，所以会有以下的依赖，我们加在自己的pom.xml中就可以了。
+在准备阶段我们就已经生成了一个SpringBoot的一个基础的Web项目，前面也提到过我们的例子使用的技术栈是SpringBoot+MySQL+MyBatis+Druid，在SpringBoot的Web项目基础的依赖的基础上我们会增加mybatis、druid以及MySQL连接驱动这三个依赖，我们只需要在项目的pom.xml中添加如下内容即可。
 pom.xml
 ```
 <!--mybatis-->
@@ -65,7 +65,7 @@ pom.xml
     <scope>runtime</scope>
 </dependency>
 
-<!--druid数据源-->
+<!--druid-->
 <dependency>
     <groupId>com.alibaba</groupId>
     <artifactId>druid</artifactId>
@@ -74,84 +74,83 @@ pom.xml
 ```
 
 ### 多数据源的配置
-* 配置文件中添加数据源配置项  
-我们需要在application.propertis中加入多数据源的配置项
-```
-## dbone 数据源配置
-dbone.druid.datasource.url=jdbc:mysql://localhost:3306/dbone?serverTimezone=GMT%2B8
-dbone.druid.datasource.username=root
-dbone.druid.datasource.password=123456
-dbone.datasource.driverClassName=com.mysql.jdbc.Driver
+1. 在application.propertis中增加配置数据源所需要的信息
+  ```
+  ## dbone 数据源配置
+  dbone.druid.datasource.url=jdbc:mysql://localhost:3306/dbone?serverTimezone=GMT%2B8
+  dbone.druid.datasource.username=root
+  dbone.druid.datasource.password=123456
+  dbone.datasource.driverClassName=com.mysql.jdbc.Driver
 
-## dbtwo 数据源配置
-dbtwo.druid.datasource.url=jdbc:mysql://localhost:3306/dbtwo?serverTimezone=GMT%2B8
-dbtwo.druid.datasource.username=root
-dbtwo.druid.datasource.password=123456
-dbtwo.datasource.driverClassName=com.mysql.jdbc.Driver
-```
-* DruidDataSourceProperties  
-我们抽象了一个类来存储创建一个数据源所需要的属性，每个数据源都有一个自己Properties类继承自DruidDataSourceProperties，并利用@ConfigurationProperties注解来从配置文件中读取各个配置项的值。由于文章篇幅的原因这里就不贴代码了，需要的话可以在源码中找到（在cn.itweknow.springbootmultidatasource.config包下）。
+  ## dbtwo 数据源配置
+  dbtwo.druid.datasource.url=jdbc:mysql://localhost:3306/dbtwo?serverTimezone=GMT%2B8
+  dbtwo.druid.datasource.username=root
+  dbtwo.druid.datasource.password=123456
+  dbtwo.datasource.driverClassName=com.mysql.jdbc.Driver
+  ```
+2.  DruidDataSourceProperties  
+我们抽象了一个类来存储创建一个数据源所需要的属性，每个数据源都有一个自己Properties类继承自DruidDataSourceProperties，并利用@ConfigurationProperties注解来从配置文件中读取各个配置项的值。由于文章篇幅的原因这里就不贴代码了，需要的话可以在[源码](https://github.com/ganchaoyang/blog/tree/master/springboot-multi-datasource)中找到（在cn.itweknow.springbootmultidatasource.config包下）。
 
-* 主数据源dbone的配置
+3. 主数据源dbone的配置
 
-```
-@Configuration
-@EnableConfigurationProperties({ DbOneDruidDataSourceProperties.class })
-// 指定在哪些包下扫描Mapper
-@MapperScan(value = { "cn.itweknow.springbootmultidatasource.dao.mapper.dbone" }, sqlSessionFactoryRef = "dbOneSqlSessionFactory")
-@ConditionalOnProperty(name = "dbone.druid.datasource.url", matchIfMissing = false)
-public class DbOneDruidDataSourceConfiguration {
+  ```
+  @Configuration
+  @EnableConfigurationProperties({ DbOneDruidDataSourceProperties.class })
+  // 指定在哪些包下扫描Mapper
+  @MapperScan(value = { "cn.itweknow.springbootmultidatasource.dao.mapper.dbone" }, sqlSessionFactoryRef = "dbOneSqlSessionFactory")
+  @ConditionalOnProperty(name = "dbone.druid.datasource.url", matchIfMissing = false)
+  public class DbOneDruidDataSourceConfiguration {
 
-    /**
-     * 指定mapper.xml文件的地址
-     */
-    static final String MAPPER_LOCATION = "classpath:sqlmap/dbone/*Mapper.xml";
+      /**
+       * 指定mapper.xml文件的地址
+       */
+      static final String MAPPER_LOCATION = "classpath:sqlmap/dbone/*Mapper.xml";
 
-    @Autowired
-    private DbOneDruidDataSourceProperties dbOneDruidDataSourceProperties;
+      @Autowired
+      private DbOneDruidDataSourceProperties dbOneDruidDataSourceProperties;
 
-    @Bean(name = "dbOneDruidDataSource", initMethod = "init", destroyMethod = "close")
-    @ConditionalOnMissingBean(name = "dbOneDruidDataSource")
-    @Primary
-    public DruidDataSource dbOneDruidDataSource() throws Exception {
-        DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setDriverClassName(dbOneDruidDataSourceProperties.getDriverClassName());
-        dataSource.setUrl(dbOneDruidDataSourceProperties.getUrl());
-        dataSource.setUsername(dbOneDruidDataSourceProperties.getUsername());
-        dataSource.setPassword(dbOneDruidDataSourceProperties.getPassword());
-        return dataSource;
-    }
+      @Bean(name = "dbOneDruidDataSource", initMethod = "init", destroyMethod = "close")
+      @ConditionalOnMissingBean(name = "dbOneDruidDataSource")
+      @Primary
+      public DruidDataSource dbOneDruidDataSource() throws Exception {
+          DruidDataSource dataSource = new DruidDataSource();
+          dataSource.setDriverClassName(dbOneDruidDataSourceProperties.getDriverClassName());
+          dataSource.setUrl(dbOneDruidDataSourceProperties.getUrl());
+          dataSource.setUsername(dbOneDruidDataSourceProperties.getUsername());
+          dataSource.setPassword(dbOneDruidDataSourceProperties.getPassword());
+          return dataSource;
+      }
 
-    @Bean(name = "dbOneTransactionManager")
-    @ConditionalOnMissingBean(name = "dbOneTransactionManager")
-    @Primary
-    public DataSourceTransactionManager dbOneTransactionManager(@Qualifier("dbOneDruidDataSource") DruidDataSource druidDataSource) {
-        return new DataSourceTransactionManager(druidDataSource);
-    }
+      @Bean(name = "dbOneTransactionManager")
+      @ConditionalOnMissingBean(name = "dbOneTransactionManager")
+      @Primary
+      public DataSourceTransactionManager dbOneTransactionManager(@Qualifier("dbOneDruidDataSource") DruidDataSource druidDataSource) {
+          return new DataSourceTransactionManager(druidDataSource);
+      }
 
-    @Bean(name = "dbOneTransactionTemplate")
-    @ConditionalOnMissingBean(name = "dbOneTransactionTemplate")
-    @Primary
-    public TransactionTemplate dbOneTransactionTemplate(@Qualifier("dbOneTransactionManager") PlatformTransactionManager platformTransactionManager) {
-        return new TransactionTemplate(platformTransactionManager);
-    }
+      @Bean(name = "dbOneTransactionTemplate")
+      @ConditionalOnMissingBean(name = "dbOneTransactionTemplate")
+      @Primary
+      public TransactionTemplate dbOneTransactionTemplate(@Qualifier("dbOneTransactionManager") PlatformTransactionManager platformTransactionManager) {
+          return new TransactionTemplate(platformTransactionManager);
+      }
 
-    @Bean(name = "dbOneSqlSessionFactory")
-    @ConditionalOnMissingBean(name = "dbOneSqlSessionFactory")
-    @Primary
-    public SqlSessionFactory dbOneSqlSessionFactory(@Qualifier("dbOneDruidDataSource") DruidDataSource druidDataSource)
-            throws Exception {
-        final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-        sessionFactory.setDataSource(druidDataSource);
-        sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
-                .getResources(MAPPER_LOCATION));
-        return sessionFactory.getObject();
-    }
+      @Bean(name = "dbOneSqlSessionFactory")
+      @ConditionalOnMissingBean(name = "dbOneSqlSessionFactory")
+      @Primary
+      public SqlSessionFactory dbOneSqlSessionFactory(@Qualifier("dbOneDruidDataSource") DruidDataSource druidDataSource)
+              throws Exception {
+          final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+          sessionFactory.setDataSource(druidDataSource);
+          sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
+                  .getResources(MAPPER_LOCATION));
+          return sessionFactory.getObject();
+      }
 
-}
-```
+  }
+  ```
 
-* 从数据源dbtwo的配置同主数据源的配置大同小异，主要的区别是Mapper的扫描包、mapper.xml不同，以及从数据源的配置没有@PrimaryZ注解。
+4. 从数据源的配置，从数据源dbtwo的配置同主数据源的配置大同小异，主要的区别是Mapper的扫描包、mapper.xml不同，以及从数据源的配置没有@Primary注解。
 
 ### 测试代码的编写
 
