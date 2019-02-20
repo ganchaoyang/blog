@@ -16,7 +16,7 @@ CREATE DATABASE dbtwo;
 * dbone，建city表并插入一条数据
 
 ```
--- 初始化dbone的表
+-- 在dbone中新建city表
 USE dbone;
 DROP TABLE IF EXISTS `city`;
 CREATE TABLE `city` (
@@ -30,7 +30,7 @@ PRIMARY KEY (`id`)
 INSERT city VALUES (1 ,1,'上海市','直辖市');
 ```
 
-* dbtwo，建user表并插入一条数据
+* 在dbtwo中新建user表
 
 ```
 -- 初始化dbtwo的表
@@ -48,7 +48,7 @@ INSERT user VALUES (1 ,'名字想好没。', '个人主页：https://itweknow.cn
 ```
 
 ### 项目依赖
-在准备阶段我们就已经生成了一个SpringBoot的一个基础的web项目，如果你不是很清楚怎么生成的话，可以看我[之前的文章]()。前面也提到过我们的例子使用的技术栈是SpringBoot+MySQL+MyBatis+Druid，所以会有以下的依赖，我们加在自己的pom.xml中就可以了。
+在准备阶段我们就已经生成了一个SpringBoot的一个基础的web项目，如果你不是很清楚怎么生成的话，可以看我[之前的文章](https://itweknow.cn/detail?id=36)。前面也提到过我们的例子使用的技术栈是SpringBoot+MySQL+MyBatis+Druid，所以会有以下的依赖，我们加在自己的pom.xml中就可以了。
 pom.xml
 ```
 <!--mybatis-->
@@ -208,4 +208,4 @@ public class DbOneDruidDataSourceConfiguration {
                     └── UserMapper.xml
 ```
 
-想要源码吗？[戳这里！！！]()
+想要源码吗？[戳这里！！！](https://github.com/ganchaoyang/blog/tree/master/springboot-multi-datasource)
